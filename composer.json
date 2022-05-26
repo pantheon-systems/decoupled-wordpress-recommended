@@ -1,106 +1,135 @@
 {
-    "name": "roots\/bedrock",
-    "type": "project",
-    "license": "MIT",
-    "description": "WordPress boilerplate with modern development tools, easier configuration, and an improved folder structure",
-    "homepage": "https:\/\/roots.io\/bedrock\/",
-    "authors": [
-        {
-            "name": "Scott Walkinshaw",
-            "email": "scott.walkinshaw@gmail.com",
-            "homepage": "https:\/\/github.com\/swalkinshaw"
-        },
-        {
-            "name": "Ben Word",
-            "email": "ben@benword.com",
-            "homepage": "https:\/\/github.com\/retlehs"
-        }
-    ],
-    "keywords": [
-        "bedrock",
-        "composer",
-        "roots",
-        "wordpress",
-        "wp",
-        "wp-config"
-    ],
-    "support": {
-        "issues": "https:\/\/github.com\/roots\/bedrock\/issues",
-        "forum": "https:\/\/discourse.roots.io\/category\/bedrock"
+  "name": "pantheon-systems/decoupled-wordpress",
+  "description": "Decoupled WordPress core, powered by Bedrock, on Pantheon.",
+  "type": "project",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https:\/\/wpackagist.org",
-            "only": [
-                "wpackagist-plugin\/*",
-                "wpackagist-theme\/*"
-            ]
-        }
-    ],
-    "require": {
-        "php": ">=7.1",
-        "composer\/installers": "^1.11",
-        "vlucas\/phpdotenv": "^5.3",
-        "oscarotero\/env": "^2.1",
-        "roots\/bedrock-autoloader": "^1.0",
-        "roots\/bedrock-disallow-indexing": "^2.0",
-        "roots\/wordpress": "5.8.1",
-        "roots\/wp-config": "1.0.0",
-        "roots\/wp-password-bcrypt": "1.0.0",
-        "drush-ops/behat-drush-endpoint": "^9.4"
+    {
+      "type": "path",
+      "url": "upstream-configuration"
     },
-    "require-dev": {
-        "squizlabs/php_codesniffer": "^3.6",
-        "roave\/security-advisories": "dev-master",
-        "drupal/coder": "^8.3",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
-        "phpunit/phpunit": "^9.5",
-        "behat/behat": "^3.8",
-        "behat/mink": "^1.8",
-        "behat/mink-extension": "^2.3",
-        "dmore/behat-chrome-extension": "^1.3",
-        "drupal/drupal-extension": "^4.1",
-        "drupal/drupal-driver": "^2.1",
-        "genesis/behat-fail-aid": "^3.7",
-        "jcalderonzumba/mink-phantomjs-driver": "^0.3.3",
-        "mikey179/vfsstream": "^1.6",
-        "symfony/css-selector": "^5.3"
+    {
+      "type": "path",
+      "url": "packages/*",
+      "symlink": true
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist"
+    {
+      "type": "vcs",
+      "url": "https://github.com/pantheon-systems/wp-pantheon-decoupled.git"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "extra": {
-        "installer-paths": {
-            "web\/app\/mu-plugins\/{$name}\/": [
-                "type:wordpress-muplugin"
-            ],
-            "web\/app\/plugins\/{$name}\/": [
-                "type:wordpress-plugin"
-            ],
-            "web\/app\/themes\/{$name}\/": [
-                "type:wordpress-theme"
-            ]
-        },
-        "wordpress-install-dir": "web\/wp"
+    {
+      "type": "vcs",
+      "url": "https://github.com/pantheon-systems/wp-pantheon-decoupled-gatsby.git"
     },
-    "scripts": {
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ],
-        "test": [
-            "phpcs"
-        ],
-        "unit-test": "echo 'No unit test step defined.'",
-        "lint": "find web\/modules\/custom web\/themes\/custom -name '*.php' -exec php -l {} \\;",
-        "code-sniff": [
-            ".\/vendor\/bin\/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor .\/web\/modules\/custom",
-            ".\/vendor\/bin\/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor .\/web\/themes\/custom",
-            ".\/vendor\/bin\/phpcs --standard=DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor .\/web\/modules\/custom",
-            ".\/vendor\/bin\/phpcs --standard=DrupalPractice --extensions=php,module,inc,install,test,profile,theme,css,info,txt,md --ignore=node_modules,bower_components,vendor .\/web\/themes\/custom"
-        ]
+    {
+      "type": "vcs",
+      "url": "https://github.com/pantheon-systems/wp-pantheon-decoupled-auth-example.git"
     }
+  ],
+  "require": {
+    "php": ">=7.1",
+    "composer/installers": "^1.11",
+    "oscarotero/env": "^2.1",
+    "pantheon-systems/pantheon-decoupled": "dev-main",
+    "pantheon-systems/pantheon-decoupled-auth-example": "dev-main",
+    "pantheon-systems/pantheon-decoupled-gatsby": "dev-main",
+    "pantheon-systems/quicksilver-pushback": "^2",
+    "pantheon-systems/wordpress-integrations": "*",
+    "pantheon-upstreams/upstream-configuration": "*",
+    "vlucas/phpdotenv": "^5.3"
+  },
+  "require-dev": {
+    "behat/mink-goutte-driver": "^1.2.1",
+    "brain/monkey": "^2.2.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+    "dmore/behat-chrome-extension": "^1.2",
+    "genesis/behat-fail-aid": "^2.1",
+    "paulgibbs/behat-wordpress-extension": "^3.3.0",
+    "phpunit/phpunit": "^7.5.1",
+    "roave/security-advisories": "dev-master",
+    "squizlabs/php_codesniffer": "^3.4.0",
+    "wp-coding-standards/wpcs": "^1.2.1"
+  },
+  "config": {
+    "vendor-dir": "vendor",
+    "preferred-install": "dist",
+    "optimize-autoloader": true,
+    "sort-packages": true,
+    "platform": {
+      "php": "7.3"
+    },
+    "allow-plugins": {
+      "composer/installers": true,
+      "roots/wordpress-core-installer": true
+    }
+  },
+  "prefer-stable": true,
+  "extra": {
+    "wordpress-install-dir": "web/wp",
+    "build-env": {
+      "install-cms": [
+        "wp core install --title={site-name} --url={site-url} --admin_user={account-name} --admin_email={account-mail} --admin_password={account-pass}",
+        "wp option update permalink_structure '/%postname%/'"
+      ]
+    },
+    "installer-paths": {
+      "web/wp-content/mu-plugins/{$name}/": [
+        "type:wordpress-muplugin",
+        "wpackagist-plugin/lh-hsts",
+        "wpackagist-plugin/pantheon-advanced-page-cache",
+        "wpackagist-plugin/wp-native-php-sessions"
+      ],
+      "web/wp-content/plugins/{$name}/": [
+        "type:wordpress-plugin"
+      ],
+      "web/wp-content/themes/{$name}/": [
+        "type:wordpress-theme"
+      ],
+      "web/private/scripts/quicksilver/{$name}/": [
+        "type:quicksilver-script"
+      ]
+    }
+  },
+  "autoload": {
+    "classmap": [
+      "scripts/composer/ScriptHandler.php"
+    ],
+    "psr-4": {
+      "PantheonSystems\\WordHatHelpers\\": "tests/behat/helper_classes/"
+    }
+  },
+  "scripts": {
+    "build-assets": [
+      "@prepare-for-pantheon",
+      "composer install --no-dev --no-ansi --no-interaction --optimize-autoloader --no-progress"
+    ],
+    "prepare-for-pantheon": "WordPressProject\\composer\\ScriptHandler::prepareForPantheon",
+    "cleanup": [
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles",
+      "./scripts/composer/cleanup-composer"
+    ],
+    "post-install-cmd": [
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-update-cmd": [
+      "git init",
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "post-create-project-cmd": [
+      "@cleanup",
+      "WordPressProject\\composer\\ScriptHandler::createRequiredFiles"
+    ],
+    "code-sniff": [
+      "./vendor/bin/phpcs --standard=WordPress ./web/wp-content"
+    ],
+    "unit-test": "echo 'No unit test step defined.'",
+    "lint": "find web/wp-content/*/custom -name '*.php' -exec php -l {} \\;"
+  }
 }

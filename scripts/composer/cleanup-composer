@@ -1,0 +1,127 @@
+#!/bin/bash
+
+# Exit immediately on errors.
+set -e
+
+#
+# Copy all the files from vendor packages.
+#
+function copy_files() {
+
+  # Copy the mu-plugins loader file.
+  if [ ! -f "web/wp-content/mu-plugins/loader.php" ]; then
+    echo "📂 💨  Copying the mu-plugins loader file..."
+    cp -v vendor/pantheon-systems/pantheon-wp-loader/loader.php web/wp-content/mu-plugins/
+    echo "✅ Done!"
+  fi
+
+  # Copy the Pantheon upstream config file.
+  if [ ! -f "web/wp/pantheon.upstream.yml" ]; then
+    echo "📂 💨  Copying the Pantheon upstream config file..."
+    cp -v vendor/pantheon-systems/wordpress-integrations/pantheon.upstream.yml web/wp/
+    echo "✅ Done!"
+  fi
+
+  # Copy over the mu-plugins folder from core wp, if it exists.
+  if [ -d "web/wp/wp-content/mu-plugins/" ]; then
+    echo "📂 💨  Copying mu-plugins..."
+    rsync -rvv ./web/wp/wp-content/mu-plugins/* web/wp-content/mu-plugins/
+    echo "✅ Done!"
+  fi
+
+  # Copy our wp-config.php file.
+  if [ ! -f "web/wp-config.php" ]; then
+    echo "📂 💨  Copying wp-config.php..."
+    cp -v vendor/pantheon-systems/pantheon-wp-config/wp-config.php web/
+    echo "✅ Done!"
+  fi
+
+  # Copy the default WP index.php file.
+  if [ ! -f "web/index.php" ]; then
+    echo "📂 💨  Copying default index file..."
+    cp -v vendor/pantheon-systems/wordpress-integrations/index.php web/
+    echo "✅ Done!"
+  fi
+
+  # Copy the wp-cli.yml file.
+  if [ ! -f "web/wp-cli.yml" ]; then
+    echo "📂 💨  Copying WP-CLI configuration file..."
+    cp -v vendor/pantheon-systems/wordpress-integrations/wp-cli.yml web/
+    echo "✅ Done!"
+  fi
+
+
+
+  # Copy mu-plugins from Bedrock.
+  copy_bedrock_muplugins
+
+}
+
+#
+# Copy all the Bedrock mu-plugins.
+#
+function copy_bedrock_muplugins() {
+  # Check for any of the bedrock mu-plugins.
+  if [[
+      ( ! -f "web/wp-content/mu-plugins/bedrock-autoloader.php" ) ||
+      ( ! -f "web/wp-content/mu-plugins/register-theme-directory.php" )
+  ]]; then
+    echo "📂 💨  Copying Bedrock mu-plugins 1/2..."
+    if [ ! -f "web/wp-content/mu-plugins/bedrock-autoloader.php" ]; then
+      cp -v vendor/roots/bedrock/web/app/mu-plugins/bedrock-autoloader.php web/wp-content/mu-plugins/
+    fi
+
+    echo "📂 💨  Copying Bedrock mu-plugins 2/2..."
+    if [ ! -f "web/wp-content/mu-plugins/register-theme-directory.php" ]; then
+      cp -v vendor/roots/bedrock/web/app/mu-plugins/register-theme-directory.php web/wp-content/mu-plugins/
+    fi
+
+    echo "✅ Done!"
+  fi
+}
+
+#
+# Setup local devleopment environment.
+#
+function setup_lando() {
+  # Check for existing lando config file.
+  if [[
+      ( ! -f ".lando.yml" )
+  ]]; then
+    echo "📂 💨  Generating Lando configuration file..."
+      terminus lando:setup
+    echo "✅ Done!"
+  fi
+}
+
+function remove_files() {
+  # Delete the core wp-config file, if it exists.
+  if [ -f "web/wp/wp-config.php" ]; then
+    echo "🗑 💥 Removing unused wp-config.php file from Bedrock install..."
+    rm -v ./web/wp/wp-config.php
+    echo "✅ Done!"
+  fi
+
+  # Remove the wp-content directory from core WordPress.
+  if [ -d "web/wp/wp-content" ]; then
+    echo "🗑 💥 Removing unused wp-content directory from Bedrock install..."
+    rm -rfv ./web/wp/wp-content
+    echo "✅ Done!"
+  fi
+
+    # Remove any unneeded build tools generated files.
+
+  if [[
+      ( -d "web/modules" ) ||
+      ( -d "web/themes" )
+  ]]; then
+    echo "🗑 💥 Removing unneeded build tools generated files from install..."
+    rm -rfv ./web/modules
+    rm -rfv ./web/themes
+    echo "✅ Done!"
+  fi
+}
+
+copy_files
+setup_lando
+remove_files
