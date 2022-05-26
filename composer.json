@@ -1,5 +1,5 @@
 {
-  "name": "pantheon-systems/decoupled-wordpress",
+  "name": "pantheon-systems/decoupled-wordpress-recommended",
   "description": "Decoupled WordPress core, powered by Bedrock, on Pantheon.",
   "type": "project",
   "license": "GPL-2.0+",
