@@ -1,8 +1,8 @@
-# Composer-enabled Decoupled Wordpress Project
+# Composer-enabled Decoupled WordPress Project
 
-This is Pantheon's recommended starting point for creating new decoupled Wordpress backend sites. It builds on Pantheon's default Wordpress composer upstream to provide best practices, default configuration, and accellerator tools for using Wordpress as a backend in decoupled archictures.
+This is Pantheon's recommended starting point for creating new decoupled WordPress backend sites. It builds on Pantheon's default WordPress composer upstream to provide best practices, default configuration, and accellerator tools for using WordPress as a backend in decoupled archictures.
 
-Unlike with earlier Pantheon upstreams, files such as Wordpress Core that you are unlikely to adjust while building sites are not in the main branch of the repository. Instead, they are referenced as dependencies that are installed by Composer.
+Unlike with earlier Pantheon upstreams, files such as WordPress Core that you are unlikely to adjust while building sites are not in the main branch of the repository. Instead, they are referenced as dependencies that are installed by Composer.
 
 ## Installation
 
